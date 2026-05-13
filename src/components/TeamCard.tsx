@@ -15,8 +15,8 @@ export function TeamCard({
 }: TeamCardProps) {
   const { state, dispatch } = useGame();
 
-  const [playerName, setPlayerName] =
-    useState("");
+  const [playerName, setPlayerName] = useState("");
+  const [teamName, setTeamName] = useState("");
 
   const team = state.teams[teamId];
 
@@ -31,13 +31,27 @@ export function TeamCard({
 
     setPlayerName("");
   }
+  
 
   return (
     <div className="border rounded-lg p-6 w-full">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-2xl font-bold">
-            {team.name}
-        </h2>
+        <input
+          className="text-2xl font-bold border-b outline-none"
+          value={teamName}
+          onChange={(e) =>
+            setTeamName(e.target.value)
+          }
+          onBlur={() =>
+            dispatch({
+              type: "EDIT_TEAM_NAME",
+              payload: {
+                teamId,
+                name: teamName,
+              },
+            })
+          }
+        />
 
         <span className="text-3xl font-bold">
             {team.score}
@@ -69,14 +83,39 @@ export function TeamCard({
             key={player.id}
             className="border rounded p-3"
           >
-            <div className="font-semibold">
-              {player.name}
-            </div>
+            <input
+              className="font-semibold border-b outline-none"
+              value={player.name}
+              onChange={(e) =>
+                dispatch({
+                  type: "EDIT_PLAYER",
+                  payload: {
+                    teamId,
+                    playerId: player.id,
+                    name: e.target.value,
+                  },
+                })
+              }
+            />
 
             <div className="flex items-center justify-between mt-2">
               <span>{player.points} pts</span>
 
               <div className="flex gap-2">
+                <button
+                  className="bg-red-500 text-white px-2 py-1 rounded"
+                  onClick={() =>
+                    dispatch({
+                      type: "REMOVE_PLAYER",
+                      payload: {
+                        teamId,
+                        playerId: player.id,
+                      },
+                    })
+                  }
+                >
+                  Remove
+                </button>
                 <button
                   className="bg-gray-200 px-2 rounded"
                   onClick={() =>

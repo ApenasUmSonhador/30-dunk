@@ -52,6 +52,17 @@ export function gameReducer(
             players: [...team.players, newPlayer],
           },
         },
+
+        history: [
+          {
+            id: uuid(),
+            type: "ADD_PLAYER",
+            description: `${trimmedName} foi adicionado`,
+            timestamp: Date.now(),
+          },
+
+          ...state.history,
+        ],
       };
     }
 
@@ -108,6 +119,145 @@ export function gameReducer(
             players: updatedPlayers,
           },
         },
+        history: [
+          {
+            id: uuid(),
+            type: "ADD_POINTS",
+            description: `${points} pontos adicionados a ${team.players.find(player => player.id === playerId)?.name}`,
+            timestamp: Date.now(),
+          },
+
+          ...state.history,
+        ],
+      };
+    }
+    
+    case "EDIT_TEAM_NAME": {
+      const { teamId, name } = action.payload;
+
+      if (!name.trim()) {
+        return state;
+      }
+
+      return {
+        ...state,
+
+        teams: {
+          ...state.teams,
+
+          [teamId]: {
+            ...state.teams[teamId],
+
+            name: name.trim(),
+          },
+        },
+        history: [
+          {
+            id: uuid(),
+            type: "EDIT_TEAM_NAME",
+            description: `Nome do time alterado para ${name.trim()}`,
+            timestamp: Date.now(),
+          },
+          ...state.history,
+        ],
+      };
+    }
+    
+    case "EDIT_PLAYER": {
+      const {
+        teamId,
+        playerId,
+        name,
+      } = action.payload;
+
+      const trimmedName = name.trim();
+
+      if (!trimmedName) {
+        return state;
+      }
+
+      const team = state.teams[teamId];
+
+      const alreadyExists = team.players.some(
+        (player) =>
+          player.id !== playerId &&
+          player.name.toLowerCase() ===
+            trimmedName.toLowerCase()
+      );
+
+      if (alreadyExists) {
+        return state;
+      }
+
+      const updatedPlayers = team.players.map(
+        (player) => {
+          if (player.id !== playerId) {
+            return player;
+          }
+
+          return {
+            ...player,
+
+            name: trimmedName,
+          };
+        }
+      );
+
+      return {
+        ...state,
+
+        teams: {
+          ...state.teams,
+
+          [teamId]: {
+            ...team,
+
+            players: updatedPlayers,
+          },
+        },
+        history: [
+          {
+            id: uuid(),
+            type: "EDIT_PLAYER",
+            description: `Jogador ${team.players.find(player => player.id === playerId)?.name} editado para ${trimmedName}`,
+            timestamp: Date.now(),
+          },
+          ...state.history,
+        ],
+      };
+    }
+
+    case "REMOVE_PLAYER": {
+      const { teamId, playerId } =
+        action.payload;
+
+      const team = state.teams[teamId];
+
+      const updatedPlayers = team.players.filter(
+        (player) => player.id !== playerId
+      );
+
+      return {
+        ...state,
+
+        teams: {
+          ...state.teams,
+
+          [teamId]: {
+            ...team,
+
+            players: updatedPlayers,
+          },
+        },
+        history: [
+          {
+            id: uuid(),
+            type: "REMOVE_PLAYER",
+            description: `Jogador ${team.players.find(player => player.id === playerId)?.name} removido`,
+            timestamp: Date.now(),
+          },
+          ...state.history,
+        ],
       };
     }
  

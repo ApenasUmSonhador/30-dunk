@@ -33,3 +33,28 @@ export type Action =
       points: 1 | 2 | 3;
     };
   }
+
+  | {
+    type: "EDIT_TEAM_NAME";
+    payload: {
+      teamId: TeamSide;
+      name: string;
+    };
+  }
+
+  | {
+    type: "REMOVE_PLAYER";
+    payload: {
+      teamId: TeamSide;
+      playerId: string;
+    };
+  }
+
+  | {
+    type: "EDIT_PLAYER";
+    payload: {
+      teamId: TeamSide;
+      playerId: string;
+      name: string;
+    };
+  }

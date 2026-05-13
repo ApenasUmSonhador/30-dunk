@@ -1,6 +1,7 @@
 "use client";
 
 import { TeamCard } from "@/components/TeamCard";
+import { HistoryPanel } from "@/components/HistoryPanel";
 
 export default function Home() {
   return (
@@ -13,6 +14,10 @@ export default function Home() {
         <TeamCard teamId="home" />
 
         <TeamCard teamId="away" />
+      </div>
+      
+      <div className="mt-10">
+        <HistoryPanel />
       </div>
     </main>
   );
