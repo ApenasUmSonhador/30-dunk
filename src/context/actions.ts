@@ -18,14 +18,6 @@ export type Action =
     }
 
   | {
-    type: "EDIT_TEAM_NAME";
-    payload: {
-      teamId: TeamSide;
-      name: string;
-    };
-  }
-
-  | {
     type: "ADD_POINTS";
     payload: {
       teamId: TeamSide;
@@ -60,19 +52,19 @@ export type Action =
     type: "PAUSE_CLOCK";
   }
 
-| {
+  | {
     type: "TICK_CLOCK";
   }
 
-| {
+  | {
     type: "NEXT_PERIOD";
   }
 
-| {
+  | {
     type: "END_GAME";
   }
 
-| {
+  | {
     type: "RESET_GAME";
   }
 
@@ -80,7 +72,7 @@ export type Action =
     type: "UNDO";
   }
 
-| {
+  | {
     type: "REDO";
   }
 
