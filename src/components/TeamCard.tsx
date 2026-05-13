@@ -117,7 +117,7 @@ export function TeamCard({
                   Remove
                 </button>
                 <button
-                  className="bg-gray-200 px-2 rounded"
+                  className="bg-gray-200 px-2 rounded text-green-600"
                   onClick={() =>
                     dispatch({
                       type: "ADD_POINTS",
@@ -133,7 +133,7 @@ export function TeamCard({
                 </button>
 
                 <button
-                  className="bg-gray-200 px-2 rounded"
+                  className="bg-gray-200 px-2 rounded text-green-600"
                   onClick={() =>
                     dispatch({
                       type: "ADD_POINTS",
@@ -149,7 +149,7 @@ export function TeamCard({
                 </button>
 
                 <button
-                  className="bg-gray-200 px-2 rounded"
+                  className="bg-gray-200 px-2 rounded text-green-600"
                   onClick={() =>
                     dispatch({
                       type: "ADD_POINTS",
