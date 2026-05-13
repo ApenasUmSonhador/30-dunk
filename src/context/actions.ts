@@ -23,4 +23,13 @@ export type Action =
         teamId: TeamSide;
         name: string;
       };
+    }
+  
+  | {
+    type: "ADD_POINTS";
+    payload: {
+      teamId: TeamSide;
+      playerId: string;
+      points: 1 | 2 | 3;
     };
+  }

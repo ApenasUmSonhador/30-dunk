@@ -55,6 +55,62 @@ export function gameReducer(
       };
     }
 
+    case "ADD_POINTS": {
+      const { teamId, playerId, points } =
+        action.payload;
+
+      const team = state.teams[teamId];
+
+      const updatedPlayers = team.players.map(
+        (player) => {
+          if (player.id !== playerId) {
+            return player;
+          }
+
+          return {
+            ...player,
+
+            points: player.points + points,
+
+            onePoint:
+              points === 1
+                ? player.onePoint + 1
+                : player.onePoint,
+
+            twoPoints:
+              points === 2
+                ? player.twoPoints + 1
+                : player.twoPoints,
+
+            threePoints:
+              points === 3
+                ? player.threePoints + 1
+                : player.threePoints,
+          };
+        }
+      );
+
+      updatedPlayers.sort(
+        (a, b) => b.points - a.points
+      );
+
+      return {
+        ...state,
+
+        teams: {
+          ...state.teams,
+
+          [teamId]: {
+            ...team,
+
+            score: team.score + points,
+
+            players: updatedPlayers,
+          },
+        },
+      };
+    }
+ 
     default:
       return state;
   }

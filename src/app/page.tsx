@@ -1,37 +1,18 @@
 "use client";
 
-import { useGame } from "@/context/GameContext";
+import { TeamCard } from "@/components/TeamCard";
 
 export default function Home() {
-  const { state, dispatch } = useGame();
-
   return (
-    <main className="p-10">
-      <h1 className="text-4xl font-bold mb-8">
+    <main className="min-h-screen p-10">
+      <h1 className="text-4xl font-bold mb-10">
         Basketball Scoreboard
       </h1>
 
-      <button
-        className="bg-black text-white px-4 py-2 rounded"
-        onClick={() =>
-          dispatch({
-            type: "ADD_PLAYER",
-            payload: {
-              teamId: "home",
-              playerName: "Jordan",
-            },
-          })
-        }
-      >
-        Adicionar Jogador
-      </button>
+      <div className="grid grid-cols-2 gap-8">
+        <TeamCard teamId="home" />
 
-      <div className="mt-8">
-        {state.teams.home.players.map((player) => (
-          <div key={player.id}>
-            {player.name} - {player.points}
-          </div>
-        ))}
+        <TeamCard teamId="away" />
       </div>
     </main>
   );
