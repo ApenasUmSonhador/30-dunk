@@ -10,7 +10,11 @@ import { GameControls } from "@/components/GameControls";
 export default function Home() {
 
   const { state, dispatch } = useGame();
+
+  // Hook para realizar lógica de relógio em funcionamento
   useEffect(() => {
+    
+    // Relógio pausado
     if (!state.clock.isRunning) {
       return;
     }
@@ -28,7 +32,7 @@ export default function Home() {
   return (
     <main className="min-h-screen p-10">
       <h1 className="text-4xl font-bold mb-10">
-        Basketball Scoreboard
+        30 Dunk - Scoreboard
       </h1>
 
       <GameControls />

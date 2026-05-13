@@ -15,9 +15,11 @@ export function GameControls() {
   return (
     <div className="border rounded-lg p-6 mb-8">
       <div className="flex justify-between items-center">
+        
+        {/* Display do relógio */}
         <div>
           <h2 className="text-3xl font-bold">
-            Q{state.clock.currentPeriod}
+            {state.clock.currentPeriod}° Tempo
           </h2>
 
           <div className="text-5xl font-bold">
@@ -25,9 +27,18 @@ export function GameControls() {
             :
             {String(seconds).padStart(2, "0")}
           </div>
+        
+          {state.clock.isFinished && (
+            <div className="text-2xl text-red-500 font-bold">
+              Partida encerrada
+            </div>
+          )}
+
         </div>
 
+        {/* Controles do jogo */}
         <div className="flex gap-3">
+
           <button
             className="bg-green-500 text-white px-4 py-2 rounded"
             onClick={() =>
@@ -82,35 +93,31 @@ export function GameControls() {
           >
             Reset
           </button>
+          
+          <button
+            className="bg-gray-700 text-white px-4 py-2 rounded"
+            onClick={() =>
+                dispatch({
+                type: "UNDO",
+                })
+            }
+            >
+            Undo
+          </button>
+
+          <button
+            className="bg-gray-500 text-white px-4 py-2 rounded"
+            onClick={() =>
+                dispatch({
+                type: "REDO",
+                })
+            }
+            >
+            Redo
+          </button>
+        
         </div>
       </div>
-
-      {state.clock.isFinished && (
-        <div className="mt-4 text-red-500 font-bold">
-          Partida encerrada
-        </div>
-      )}
-      <button
-        className="bg-gray-700 text-white px-4 py-2 rounded"
-        onClick={() =>
-            dispatch({
-            type: "UNDO",
-            })
-        }
-        >
-        Undo
-        </button>
-
-        <button
-        className="bg-gray-500 text-white px-4 py-2 rounded"
-        onClick={() =>
-            dispatch({
-            type: "REDO",
-            })
-        }
-        >
-        Redo
-        </button>
     </div>
   );
 }

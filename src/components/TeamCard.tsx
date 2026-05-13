@@ -70,7 +70,7 @@ export function TeamCard({
         />
 
         <button
-          className="bg-black text-white px-4 rounded"
+          className="bg-black text-white px-4 rounded border"
           onClick={handleAddPlayer}
         >
           Add
