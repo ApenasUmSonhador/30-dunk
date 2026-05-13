@@ -69,4 +69,15 @@ export interface GameState {
   history: HistoryItem[];
 
   scoreEvents: ScoreEvent[];
+
+  undoStack: Snapshot[];
+  
+  redoStack: Snapshot[];
+}
+
+export interface Snapshot {
+  teams: GameState["teams"];
+  clock: GameState["clock"];
+  history: GameState["history"];
+  scoreEvents: GameState["scoreEvents"];
 }

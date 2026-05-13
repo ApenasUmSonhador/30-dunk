@@ -27,4 +27,8 @@ export const initialState: GameState = {
   history: [],
 
   scoreEvents: [],
+  
+  undoStack: [],
+
+  redoStack: [],
 };

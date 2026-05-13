@@ -1,4 +1,4 @@
-import { TeamSide } from "@/types/game";
+import { GameState, TeamSide } from "@/types/game";
 
 export type Action =
   | {
@@ -10,21 +10,21 @@ export type Action =
     }
 
   | {
-      type: "REMOVE_PLAYER";
-      payload: {
-        teamId: TeamSide;
-        playerId: string;
-      };
-    }
-
-  | {
       type: "EDIT_TEAM_NAME";
       payload: {
         teamId: TeamSide;
         name: string;
       };
     }
-  
+
+  | {
+    type: "EDIT_TEAM_NAME";
+    payload: {
+      teamId: TeamSide;
+      name: string;
+    };
+  }
+
   | {
     type: "ADD_POINTS";
     payload: {
@@ -34,10 +34,11 @@ export type Action =
     };
   }
 
-  | {
-    type: "EDIT_TEAM_NAME";
+| {
+    type: "EDIT_PLAYER";
     payload: {
       teamId: TeamSide;
+      playerId: string;
       name: string;
     };
   }
@@ -50,11 +51,40 @@ export type Action =
     };
   }
 
+  // Clock actions
   | {
-    type: "EDIT_PLAYER";
-    payload: {
-      teamId: TeamSide;
-      playerId: string;
-      name: string;
-    };
+    type: "START_CLOCK";
+  }
+
+| {
+    type: "PAUSE_CLOCK";
+  }
+
+| {
+    type: "TICK_CLOCK";
+  }
+
+| {
+    type: "NEXT_PERIOD";
+  }
+
+| {
+    type: "END_GAME";
+  }
+
+| {
+    type: "RESET_GAME";
+  }
+
+  | {
+    type: "UNDO";
+  }
+
+| {
+    type: "REDO";
+  }
+
+  | {
+    type: "LOAD_STATE";
+    payload: GameState;
   }

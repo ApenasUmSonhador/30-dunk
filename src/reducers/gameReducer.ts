@@ -1,4 +1,6 @@
 import { Action } from "@/context/actions";
+import { initialState } from "@/context/initialState";
+import { createSnapshot } from "@/utils/createSnapshot";
 import { GameState, Player } from "@/types/game";
 import { v4 as uuid } from "uuid";
 
@@ -40,6 +42,8 @@ export function gameReducer(
         threePoints: 0,
       };
 
+      const snapshot = createSnapshot(state);
+
       return {
         ...state,
 
@@ -63,10 +67,19 @@ export function gameReducer(
 
           ...state.history,
         ],
+        undoStack: [
+          ...state.undoStack,
+          snapshot,
+        ],
+
+        redoStack: [],
       };
     }
 
     case "ADD_POINTS": {
+      if (state.clock.isFinished) {
+        return state;
+      }
       const { teamId, playerId, points } =
         action.payload;
 
@@ -105,6 +118,8 @@ export function gameReducer(
         (a, b) => b.points - a.points
       );
 
+      const snapshot = createSnapshot(state);
+      
       return {
         ...state,
 
@@ -129,6 +144,12 @@ export function gameReducer(
 
           ...state.history,
         ],
+        undoStack: [
+          ...state.undoStack,
+          snapshot,
+        ],
+
+        redoStack: [],
       };
     }
     
@@ -138,6 +159,8 @@ export function gameReducer(
       if (!name.trim()) {
         return state;
       }
+
+      const snapshot = createSnapshot(state);
 
       return {
         ...state,
@@ -160,6 +183,12 @@ export function gameReducer(
           },
           ...state.history,
         ],
+          undoStack: [
+          ...state.undoStack,
+          snapshot,
+        ],
+
+        redoStack: [],
       };
     }
     
@@ -203,6 +232,8 @@ export function gameReducer(
         }
       );
 
+      const snapshot = createSnapshot(state)
+
       return {
         ...state,
 
@@ -224,6 +255,12 @@ export function gameReducer(
           },
           ...state.history,
         ],
+          undoStack: [
+          ...state.undoStack,
+          snapshot,
+        ],
+
+        redoStack: [],
       };
     }
 
@@ -236,6 +273,8 @@ export function gameReducer(
       const updatedPlayers = team.players.filter(
         (player) => player.id !== playerId
       );
+
+      const snapshot = createSnapshot(state)
 
       return {
         ...state,
@@ -258,9 +297,193 @@ export function gameReducer(
           },
           ...state.history,
         ],
+          undoStack: [
+          ...state.undoStack,
+          snapshot,
+        ],
+
+        redoStack: [],
       };
     }
  
+    case "START_CLOCK": {
+      if (state.clock.isFinished) {
+        return state;
+      }
+
+      return {
+        ...state,
+
+        clock: {
+          ...state.clock,
+
+          isRunning: true,
+        },
+      };
+    }
+
+    case "PAUSE_CLOCK": {
+      return {
+        ...state,
+
+        clock: {
+          ...state.clock,
+
+          isRunning: false,
+        },
+      };
+    }
+
+    case "TICK_CLOCK": {
+      if (!state.clock.isRunning) {
+        return state;
+      }
+
+      if (state.clock.timeLeft <= 0) {
+        return {
+          ...state,
+
+          clock: {
+            ...state.clock,
+
+            isRunning: false,
+          },
+        };
+      }
+
+      return {
+        ...state,
+
+        clock: {
+          ...state.clock,
+
+          timeLeft: state.clock.timeLeft - 1,
+        },
+      };
+    }
+
+    case "NEXT_PERIOD": {
+      if (state.clock.currentPeriod >= 4) {
+        return {
+          ...state,
+
+          clock: {
+            ...state.clock,
+
+            isFinished: true,
+
+            isRunning: false,
+          },
+        };
+      }
+
+      const snapshot = createSnapshot(state)
+
+
+      return {
+        ...state,
+
+        clock: {
+          ...state.clock,
+
+          currentPeriod:
+            state.clock.currentPeriod + 1,
+
+          timeLeft: 600,
+
+          isRunning: false,
+        },
+
+        history: [
+          {
+            id: uuid(),
+            type: "NEXT_PERIOD",
+            description: `Período ${
+              state.clock.currentPeriod + 1
+            } iniciado`,
+            timestamp: Date.now(),
+          },
+
+          ...state.history,
+        ],
+          undoStack: [
+          ...state.undoStack,
+          snapshot,
+        ],
+
+        redoStack: [],
+      };
+    }
+
+    case "END_GAME": {
+      return {
+        ...state,
+
+        clock: {
+          ...state.clock,
+
+          isFinished: true,
+
+          isRunning: false,
+        },
+      };
+    }
+
+    case "RESET_GAME": {
+      return initialState;
+    }
+
+    case "UNDO": {
+      if (state.undoStack.length === 0) {
+        return state;
+      }
+
+      const previous =
+        state.undoStack[
+          state.undoStack.length - 1
+        ];
+
+      return {
+        ...previous,
+
+        undoStack: state.undoStack.slice(
+          0,
+          -1
+        ),
+
+        redoStack: [
+          ...state.redoStack,
+          createSnapshot(state),
+        ],
+      };
+    }
+
+    case "REDO": {
+      if (state.redoStack.length === 0) {
+        return state;
+      }
+
+      const next =
+        state.redoStack[
+          state.redoStack.length - 1
+        ];
+
+      return {
+        ...next,
+
+        redoStack: state.redoStack.slice(0, -1),
+
+        undoStack: [
+          ...state.undoStack,
+          createSnapshot(state),
+        ],
+      };
+    }
+
+    case "LOAD_STATE": {
+      return action.payload;
+    }
+
     default:
       return state;
   }

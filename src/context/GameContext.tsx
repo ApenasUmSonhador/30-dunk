@@ -5,6 +5,7 @@ import {
   Dispatch,
   ReactNode,
   useContext,
+  useEffect,
   useReducer,
 } from "react";
 
@@ -37,6 +38,26 @@ export function GameProvider({
     gameReducer,
     initialState
   );
+
+  useEffect(() => {
+    const saved = localStorage.getItem(
+      "basketball-game"
+    );
+
+    if (saved) {
+      dispatch({
+        type: "LOAD_STATE",
+        payload: JSON.parse(saved),
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem(
+      "basketball-game",
+      JSON.stringify(state)
+    );
+  }, [state]);
 
   return (
     <GameContext.Provider value={{ state, dispatch }}>
