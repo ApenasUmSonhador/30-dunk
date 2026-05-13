@@ -5,7 +5,13 @@ import "./globals.css";
 import { GameProvider } from "@/context/GameContext";
 
 export const metadata: Metadata = {
-  title: "Basketball Scoreboard",
+  authors: [
+    {
+      name: "Arthur Nunes ",
+      url: "https://github.com/ApenasUmSonhador"
+    }
+  ],
+  title: "30 Dunk - Scoreboard",
   description: "Basketball Scoreboard App",
 };
 
