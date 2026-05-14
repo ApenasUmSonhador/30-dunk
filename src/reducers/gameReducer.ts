@@ -150,6 +150,28 @@ export function gameReducer(
         ],
 
         redoStack: [],
+        scoreEvents: [
+          {
+            id: uuid(),
+
+            playerId,
+
+            playerName:
+              team.players.find(
+                (player) => player.id === playerId
+              )?.name || "",
+
+            teamId,
+
+            points,
+
+            period: state.clock.currentPeriod,
+
+            timestamp: Date.now(),
+          },
+
+          ...state.scoreEvents,
+        ]
       };
     }
     

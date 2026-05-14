@@ -6,6 +6,7 @@ import { useGame } from "@/context/GameContext";
 import { TeamCard } from "@/components/TeamCard";
 import { HistoryPanel } from "@/components/HistoryPanel";
 import { GameControls } from "@/components/GameControls";
+import { StatsPanel } from "@/components/StatsPanel";
 
 export default function Home() {
 
@@ -43,7 +44,9 @@ export default function Home() {
         <TeamCard teamId="away" />
       </div>
 
-      <div className="mt-10">
+      <div className="grid grid-cols-2 gap-8 mt-10">
+        <StatsPanel />
+
         <HistoryPanel />
       </div>
     </main>
