@@ -51,7 +51,26 @@ export function TeamCard({
     <div className="bg-white shadow-lg rounded-xl p-6 w-full">
       <div className="flex justify-between items-center mb-4">
         <input
-          className="text-2xl font-bold border-b outline-none"
+          className="
+            w-fit
+            text-2xl
+            font-bold
+            bg-transparent
+            outline-none
+            border
+            border-transparent
+            focus:border-gray-300
+            rounded
+            px-2
+            py-1
+            transition
+            cursor-text
+            w-full
+            max-w-[220px]
+            overflow-hidden
+            text-ellipsis
+            whitespace-nowrap
+            "
           value={teamName}
           onChange={(e) =>
             setTeamName(e.target.value)
@@ -65,22 +84,51 @@ export function TeamCard({
               },
             })
           }
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              dispatch({
+                type: "EDIT_TEAM_NAME",
+                payload: {
+                  teamId,
+                  name: teamName,
+                },
+              });
+
+              e.currentTarget.blur();
+            }
+          }}
         />
 
-        <span className="text-5xl font-extrabold">
+        <span className="text-3xl md:text-5xl font-extrabold">
             {team.score}
         </span>
       </div>
 
       <div className="flex gap-2 mb-6">
         <input
-          className="border px-3 py-2 rounded w-full"
+          className="
+            font-semibold
+            bg-transparent
+            outline-none
+            border
+            border-gray-300
+            focus:border-black
+            rounded
+            px-1
+            transition
+            cursor-text
+          "
           type="text"
           placeholder="Nome do jogador"
           value={playerName}
           onChange={(e) =>
             setPlayerName(e.target.value)
           }
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleAddPlayer();
+            }
+          }}
         />
 
         <button
@@ -121,9 +169,9 @@ export function TeamCard({
             <div className="flex items-center justify-between mt-2">
               <span>{player.points} pts</span>
 
-              <div className="flex gap-2">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                 <button
-                  className="bg-red-500 text-white px-2 py-1 rounded"
+                  className="bg-red-500 text-white px-2 py-1 rounded w-full"
                   onClick={() =>
                     dispatch({
                       type: "REMOVE_PLAYER",

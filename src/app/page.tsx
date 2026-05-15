@@ -13,8 +13,8 @@ export default function Home() {
   const [showHistory, setShowHistory] = useState(true);
 
   return (
-    <main className="min-h-screen p-10">
-      <h1 className="text-4xl font-bold mb-10">
+    <main className="min-h-screen p-4 md:p-8 lg:p-10">
+      <h1 className="text-2xl md:text-4xl font-bold mb-10">
         30 Dunk - Scoreboard
       </h1>
 

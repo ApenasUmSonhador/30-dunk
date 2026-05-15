@@ -14,7 +14,7 @@ export function GameControls() {
 
   return (
     <div className="bg-white text-black shadow-lg rounded-xl p-6 mb-8">
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col lg:flex-row gap-6 lg:justify-between lg:items-center">
         
         {/* Display do relógio */}
         <div>
@@ -22,7 +22,7 @@ export function GameControls() {
             {state.clock.currentPeriod}° Tempo
           </h2>
 
-          <div className="text-5xl font-bold">
+          <div className="text-4xl md:text-5xl font-bold">
             {String(minutes).padStart(2, "0")}
             :
             {String(seconds).padStart(2, "0")}
@@ -37,10 +37,9 @@ export function GameControls() {
         </div>
 
         {/* Controles do jogo */}
-        <div className="flex gap-3">
-
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3">
           <button
-            className="bg-green-500 text-white px-4 py-2 rounded"
+            className="bg-green-500 text-white px-4 py-2 rounded w-full"
             onClick={() =>
               dispatch({
                 type: "START_CLOCK",
@@ -51,7 +50,7 @@ export function GameControls() {
           </button>
 
           <button
-            className="bg-yellow-500 text-white px-4 py-2 rounded"
+            className="bg-yellow-500 text-white px-4 py-2 rounded w-full"
             onClick={() =>
               dispatch({
                 type: "PAUSE_CLOCK",
@@ -62,7 +61,7 @@ export function GameControls() {
           </button>
 
           <button
-            className="bg-blue-500 text-white px-4 py-2 rounded"
+            className="bg-blue-500 text-white px-4 py-2 rounded w-full"
             onClick={() =>
               dispatch({
                 type: "NEXT_PERIOD",
@@ -73,7 +72,7 @@ export function GameControls() {
           </button>
 
           <button
-            className="bg-red-500 text-white px-4 py-2 rounded"
+            className="bg-red-500 text-white px-4 py-2 rounded w-full"
             onClick={() =>
               dispatch({
                 type: "END_GAME",
@@ -84,7 +83,7 @@ export function GameControls() {
           </button>
 
           <button
-            className="bg-black text-white px-4 py-2 rounded"
+            className="bg-black text-white px-4 py-2 rounded w-full"
             onClick={() => {
               if (
                 confirm("Deseja reiniciar a partida?")
@@ -99,7 +98,7 @@ export function GameControls() {
           </button>
           
           <button
-            className="bg-gray-700 text-white px-4 py-2 rounded"
+            className="bg-gray-700 text-white px-4 py-2 rounded w-full"
             onClick={() =>
                 dispatch({
                 type: "UNDO",
@@ -110,7 +109,7 @@ export function GameControls() {
           </button>
 
           <button
-            className="bg-gray-500 text-white px-4 py-2 rounded"
+            className="bg-gray-500 text-white px-4 py-2 rounded w-full"
             onClick={() =>
                 dispatch({
                 type: "REDO",
