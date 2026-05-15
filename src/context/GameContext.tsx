@@ -59,6 +59,20 @@ export function GameProvider({
     );
   }, [state]);
 
+  useEffect(() => {
+    if (!state.clock.isRunning) {
+      return;
+    }
+
+    const interval = setInterval(() => {
+      dispatch({
+        type: "TICK_CLOCK",
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [state.clock.isRunning]);
+
   return (
     <GameContext.Provider value={{ state, dispatch }}>
       {children}

@@ -21,7 +21,7 @@ export function StatsPanel() {
     getPointsByPeriod(state);
 
   return (
-    <div className="border rounded-lg p-6">
+    <div className="bg-white text-black shadow-lg rounded-xl p-6">
       <h2 className="text-2xl font-bold mb-6">
         Estatísticas
       </h2>

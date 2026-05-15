@@ -6,7 +6,7 @@ export function HistoryPanel() {
   const { state } = useGame();
 
   return (
-    <div className="border rounded-lg p-6">
+    <div className="bg-white text-black shadow-lg rounded-xl p-6 max-h-[500px] overflow-y-auto">
       <h2 className="text-2xl font-bold mb-4">
         Histórico
       </h2>

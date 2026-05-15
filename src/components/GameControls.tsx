@@ -13,7 +13,7 @@ export function GameControls() {
     state.clock.timeLeft % 60;
 
   return (
-    <div className="border rounded-lg p-6 mb-8">
+    <div className="bg-white text-black shadow-lg rounded-xl p-6 mb-8">
       <div className="flex justify-between items-center">
         
         {/* Display do relógio */}
@@ -85,11 +85,15 @@ export function GameControls() {
 
           <button
             className="bg-black text-white px-4 py-2 rounded"
-            onClick={() =>
-              dispatch({
-                type: "RESET_GAME",
-              })
-            }
+            onClick={() => {
+              if (
+                confirm("Deseja reiniciar a partida?")
+              ) {
+                dispatch({
+                  type: "RESET_GAME",
+                });
+              }
+            }}
           >
             Reset
           </button>
